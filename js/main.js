@@ -1,36 +1,29 @@
 // Случайное число
 
-const randomNumber = function (min, max) {
+const generateNumber = function (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   if (min < 0 || max < 0) {
-    return alert('Диапазон может быть только положительный, включая ноль')
+    throw Error('Диапазон может быть только положительный, включая ноль.')
   }
   if (min >= max) {
-    return alert('Диапазон задан неверно')
+    throw Error('Неправильный формат данных.')
   }
-  return alert('Случайное число из заданного диапозона: ' + (Math.floor(Math.random() * (max - min + 1)) + min));
+  return (Math.floor(Math.random() * (max - min + 1)) + min);
 }
+
+generateNumber(2, 5);
 
 // Случайное число с плавующей точкой
 
-const randomNonInteger = function (min, max, digitsAfter) {
-  if (min < 0 || max < 0) {
-    return alert('Диапазон может быть только положительный, включая ноль')
+const generateFractionalNumber = function (extremumMin, extremumMax, digitsAfter) {
+  if (extremumMin < 0 || extremumMax < 0) {
+    throw Error('Диапазон может быть только положительный, включая ноль.')
   }
-  if (min >= max) {
-    return alert('Диапазон задан неверно')
+  if (extremumMin >= extremumMax) {
+    throw Error('Неправильный формат данных.')
   }
-  let degree = 1;
-  for (let i = 0; i < digitsAfter; i++) {
-    degree = degree * 10;
-  }
-  max = max * degree;
-  min = min * degree;
-  return alert('Случайное число из заданного диапозона: ' + ((Math.floor(Math.random() * (max - min + 1)) + min)/degree).toFixed(digitsAfter));
+  return ((Math.random() * (extremumMax - extremumMin) + extremumMin).toFixed(digitsAfter));
 }
 
-
-
-
-
+generateFractionalNumber(3.9994, 4, 4);
