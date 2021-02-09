@@ -29,7 +29,7 @@ generateFractionalNumber(3.9994, 4, 4);
 
 // Данные
 
-const TYPE = [
+const TYPES = [
   'palace',
   'flat',
   'house',
@@ -57,8 +57,6 @@ const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ]
 
-const SIMILAR_ANNOUNCEMENT_COUNT = 10;
-
 // случайный элемент
 
 const getRandomArrayElement = (element) => {
@@ -78,22 +76,14 @@ const createLocation = () => {
   }
 };
 
-const createFeatures = () => {
-  let featuresList = [];
-  let featuresLength = generateNumber(0, FEATURES.length-1);
-  for (let i = 0; i < featuresLength; i++) {
-    featuresList.push(FEATURES[i]);
-  }
-  return featuresList;
-};
+//Массив случайной длины
 
-const createPhotos = () => {
-  let photosList = [];
-  let photosLength = generateNumber(0, PHOTOS.length-1);
-  for (let i = 0; i < photosLength; i++) {
-    photosList.push(PHOTOS[i]);
+const getRandomLength = (arrayName, elements) => {
+  arrayName = [];
+  for (let i = 0; i < generateNumber(0, elements.length-1); i++) {
+    arrayName.push(elements[i]);
   }
-  return photosList;
+  return arrayName;
 };
 
 const createOffer = () => {
@@ -101,27 +91,27 @@ const createOffer = () => {
     title: 'Заголовок',
     address: createLocation(),
     price: generateNumber(1, 999999999999),
-    type: String(getRandomArrayElement(TYPE)),
+    type: String(getRandomArrayElement(TYPES)),
     rooms: generateNumber(1, 999999999999),
     guests: generateNumber(1, 999999999999),
     checkin: String(getRandomArrayElement(TIME)),
     checkout: String(getRandomArrayElement(TIME)),
-    features: createFeatures(),
+    features: getRandomLength('featuresList', FEATURES),
     description: 'Здесь описание помещения',
-    photos: createPhotos(),
+    photos: getRandomLength('photosList', PHOTOS),
   }
 };
 
 const createAnnouncement = () => {
-  const announcement = {
+  return  {
     author: createAuthor(),
     offer: createOffer(),
     location: createLocation(),
   }
-  return new Array(SIMILAR_ANNOUNCEMENT_COUNT).fill(null).map(() => announcement);
 };
 
-createAnnouncement();
+const buildAnnouncements = (similarAnnouncementCount) => {
+  return new Array(similarAnnouncementCount).fill(null).map(() => createAnnouncement());
+};
 
-//console.log(createAnnouncement())
-
+buildAnnouncements(10);
