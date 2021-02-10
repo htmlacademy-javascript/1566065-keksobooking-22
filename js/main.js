@@ -36,7 +36,7 @@ const TYPES = [
   'bungalow',
 ];
 
-const TIME = [
+const HOURS = [
   '12:00',
   '13:00',
   '14:00',
@@ -56,6 +56,8 @@ const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ]
+
+const announcementsCount = 10;
 
 // случайный элемент
 
@@ -94,15 +96,15 @@ const createOffer = () => {
     type: String(getRandomArrayElement(TYPES)),
     rooms: generateNumber(1, 999999999999),
     guests: generateNumber(1, 999999999999),
-    checkin: String(getRandomArrayElement(TIME)),
-    checkout: String(getRandomArrayElement(TIME)),
+    checkin: String(getRandomArrayElement(HOURS)),
+    checkout: String(getRandomArrayElement(HOURS)),
     features: getRandomLength('featuresList', FEATURES),
     description: 'Здесь описание помещения',
     photos: getRandomLength('photosList', PHOTOS),
   }
 };
 
-const createAnnouncement = () => {
+const createAnnouncements = () => {
   return  {
     author: createAuthor(),
     offer: createOffer(),
@@ -110,8 +112,8 @@ const createAnnouncement = () => {
   }
 };
 
-const buildAnnouncements = (similarAnnouncementCount) => {
-  return new Array(similarAnnouncementCount).fill(null).map(() => createAnnouncement());
+const buildAnnouncements = (similarAnnouncementsCount) => {
+  return new Array(similarAnnouncementsCount).fill(null).map(() => createAnnouncements());
 };
 
-buildAnnouncements(10);
+buildAnnouncements(announcementsCount);
