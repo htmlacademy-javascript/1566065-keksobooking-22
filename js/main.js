@@ -57,7 +57,7 @@ const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ]
 
-const announcementsCount = 10;
+const ANNOUNCEMENTS_COUNT = 10;
 
 // случайный элемент
 
@@ -104,8 +104,8 @@ const createOffer = () => {
   }
 };
 
-const createAnnouncements = () => {
-  return  {
+const createAnnouncement = () => {
+  return {
     author: createAuthor(),
     offer: createOffer(),
     location: createLocation(),
@@ -113,7 +113,7 @@ const createAnnouncements = () => {
 };
 
 const buildAnnouncements = (similarAnnouncementsCount) => {
-  return new Array(similarAnnouncementsCount).fill(null).map(() => createAnnouncements());
+  return new Array(similarAnnouncementsCount).fill(null).map(() => createAnnouncement());
 };
 
-buildAnnouncements(announcementsCount);
+buildAnnouncements(ANNOUNCEMENTS_COUNT);
