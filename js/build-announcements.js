@@ -33,7 +33,7 @@ const PHOTOS = [
 // Автор
 
 const createAuthor = () => {
-  return String('img/avatars/user' + generateNumber(1, 8) + '.png');
+  return String('img/avatars/user0' + generateNumber(1, 8) + '.png');
 };
 
 // Координаты

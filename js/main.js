@@ -1,5 +1,3 @@
-import {buildAnnouncements} from './build-announcements.js';
+import {displayAnnouncements} from './display-card.js';
 
-const ANNOUNCEMENTS_COUNT = 10;
-
-buildAnnouncements(ANNOUNCEMENTS_COUNT);
+displayAnnouncements(1);

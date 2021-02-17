@@ -34,7 +34,7 @@ const getRandomArrayElement = (element) => {
 
 const getRandomLength = (arrayName, elements) => {
   arrayName = [];
-  for (let i = 0; i < generateNumber(0, elements.length-1); i++) {
+  for (let i = 0; i < generateNumber(0, elements.length); i++) {
     arrayName.push(elements[i]);
   }
   return arrayName;
