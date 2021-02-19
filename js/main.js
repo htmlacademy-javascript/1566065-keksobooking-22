@@ -1,4 +1,7 @@
-import {displayAnnouncements} from './display-card.js';
+import {buildAnnouncements} from './build-announcements.js';
+import {showCardOnPage} from './show-card.js';
 
-displayAnnouncements(1);
+const NUMBER_OF_ANNOUNCEMENTS = 10;
+const listCards = buildAnnouncements(NUMBER_OF_ANNOUNCEMENTS);
 
+showCardOnPage(listCards[0]);
