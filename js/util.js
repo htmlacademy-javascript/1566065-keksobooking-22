@@ -1,6 +1,6 @@
 // Случайное число
 
-const generateNumber = function (min, max) {
+const generateNumber = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   if (min < 0 || max < 0) {
@@ -14,7 +14,7 @@ const generateNumber = function (min, max) {
 
 // Случайное число с плавующей точкой
 
-const generateFractionalNumber = function (extremumMin, extremumMax, digitsAfter) {
+const generateFractionalNumber = (extremumMin, extremumMax, digitsAfter) => {
   if (extremumMin < 0 || extremumMax < 0) {
     throw Error('Диапазон может быть только положительный, включая ноль.')
   }
@@ -34,7 +34,7 @@ const getRandomArrayElement = (element) => {
 
 const getRandomLength = (arrayName, elements) => {
   arrayName = [];
-  for (let i = 0; i < generateNumber(0, elements.length-1); i++) {
+  for (let i = 0; i < generateNumber(0, elements.length); i++) {
     arrayName.push(elements[i]);
   }
   return arrayName;

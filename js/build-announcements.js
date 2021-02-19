@@ -33,10 +33,11 @@ const PHOTOS = [
 // Автор
 
 const createAuthor = () => {
-  return String('img/avatars/user' + generateNumber(1, 8) + '.png');
+  return String('img/avatars/user0' + generateNumber(1, 8) + '.png');
 };
 
 // Координаты
+
 
 const createLocation = () => {
   return {
@@ -45,29 +46,31 @@ const createLocation = () => {
   }
 };
 
+
 // Сборка объявления
 
-const createOffer = () => {
-  return {
-    title: 'Заголовок',
-    address: createLocation(),
-    price: generateNumber(1, 999999999999),
-    type: String(getRandomArrayElement(TYPES)),
-    rooms: generateNumber(1, 999999999999),
-    guests: generateNumber(1, 999999999999),
-    checkin: String(getRandomArrayElement(HOURS)),
-    checkout: String(getRandomArrayElement(HOURS)),
-    features: getRandomLength('featuresList', FEATURES),
-    description: 'Здесь описание помещения',
-    photos: getRandomLength('photosList', PHOTOS),
-  }
-};
-
 const createAnnouncement = () => {
+  const coordinates = createLocation()
+  const createOffer = () => {
+    return {
+      title: 'Заголовок',
+      address: coordinates,
+      price: generateNumber(1, 999999),
+      type: String(getRandomArrayElement(TYPES)),
+      rooms: generateNumber(1, 10),
+      guests: generateNumber(1, 10),
+      checkin: String(getRandomArrayElement(HOURS)),
+      checkout: String(getRandomArrayElement(HOURS)),
+      features: getRandomLength('featuresList', FEATURES),
+      description: 'Здесь описание помещения',
+      photos: getRandomLength('photosList', PHOTOS),
+    }
+  };
+
   return {
     author: createAuthor(),
     offer: createOffer(),
-    location: createLocation(),
+    location: coordinates,
   }
 };
 

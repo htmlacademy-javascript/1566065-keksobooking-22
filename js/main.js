@@ -1,5 +1,7 @@
 import {buildAnnouncements} from './build-announcements.js';
+import {card} from './card.js';
 
-const ANNOUNCEMENTS_COUNT = 10;
+const NUMBER_OF_ANNOUNCEMENTS = 10;
+const listCards = buildAnnouncements(NUMBER_OF_ANNOUNCEMENTS);
 
-buildAnnouncements(ANNOUNCEMENTS_COUNT);
+card.showOnPage(listCards[0]);
