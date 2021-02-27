@@ -23,13 +23,11 @@ const changeEndings = (numbers, textForm) => {
   }
 };
 
-const mapCanvas = document.querySelector('#map-canvas');
 const taskTemplateCard = document.querySelector('#card').content;
 const popupTemplate = taskTemplateCard.querySelector('.popup');
 
 const card = {
   showOnPage(onScreenItem) {
-    const fragment = document.createDocumentFragment();
     const popup = popupTemplate.cloneNode(true);
     const popupTitle = popup.querySelector('.popup__title');
     const popupAddress = popup.querySelector('.popup__text--address');
@@ -86,9 +84,7 @@ const card = {
 
     popupPhotos.appendChild(photoFragment);
     popupAvatar.src = onScreenItem.author;
-    fragment.appendChild(popup);
-
-    mapCanvas.appendChild(fragment);
+    return popup
   },
 };
 
