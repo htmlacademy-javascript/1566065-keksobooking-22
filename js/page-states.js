@@ -4,10 +4,10 @@ const mapFilters = document.querySelector('.map__filters');
 const mapFiltersElements = Array.from (mapFilters.children);
 
 const pageStates = {
-  inactive() {
+  makeInactive() {
     const makeDisabled = (item) => {
       item.forEach((element) => {
-        element.setAttribute('disabled', 'disabled')
+        element.setAttribute('disabled', 'true')
       });
     };
 
@@ -16,10 +16,10 @@ const pageStates = {
     mapFilters.classList.add('map__filters--disabled');
     makeDisabled(mapFiltersElements);
   },
-  active() {
+  makeActive() {
     const makeActive = (item) => {
       item.forEach((element) => {
-        element.removeAttribute('disabled', 'disabled')
+        element.removeAttribute('disabled')
       });
     };
 
