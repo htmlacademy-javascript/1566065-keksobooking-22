@@ -1,7 +1,9 @@
 import {buildAnnouncements} from './build-announcements.js';
-import {card} from './card.js';
+import {createMap} from './create-map.js';
+import {announcementForm} from './form.js';
 
 const NUMBER_OF_ANNOUNCEMENTS = 10;
 const listCards = buildAnnouncements(NUMBER_OF_ANNOUNCEMENTS);
 
-card.showOnPage(listCards[0]);
+createMap(listCards);
+announcementForm.validation();
