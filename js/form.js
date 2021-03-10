@@ -1,3 +1,10 @@
+import {showErrorMessage, showSuccessMessage} from './notifications.js'
+import {sendData} from './api.js'
+
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+const MAX_PRICE_NUMBER = 1000000;
+
 const form = document.querySelector('.ad-form');
 const checkInSelect = form.querySelector('#timein');
 const checkOutSelect = form.querySelector('#timeout');
@@ -10,39 +17,11 @@ const withoutGuests = capacity.querySelector('[value="0"]')
 const titleInput = form.querySelector('#title');
 const clearButton = form.querySelector('.ad-form__reset');
 
-const taskSuccessMessageTemplate = document.querySelector('#success').content;
-const successMessageTemplate = taskSuccessMessageTemplate.querySelector('.success');
-const successMessage = successMessageTemplate.cloneNode(true);
-const taskErrorMessageTemplate = document.querySelector('#error').content;
-const errorMessageTemplate = taskErrorMessageTemplate.querySelector('.error');
-const errorMessage = errorMessageTemplate.cloneNode(true);
-const errorMessageButton = errorMessage.querySelector('.error__button')
-
-const TIMEOUT = 2000;
-
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
-const MAX_PRICE_NUMBER = 1000000;
-
 const minHousingPrice = {
   flat: 1000,
   bungalow: 0,
   house: 5000,
   palace: 10000,
-}
-
-const showErrorMessage = () => {
-  document.body.append(errorMessage);
-  errorMessageButton.addEventListener('click', () => {
-    errorMessage.remove();
-  })
-}
-
-const showSuccessMessage = () => {
-  document.body.append(successMessage);
-  setTimeout(() => {
-    successMessage.remove();
-  }, TIMEOUT);
 }
 
 const announcementForm = {
@@ -136,29 +115,13 @@ const announcementForm = {
     });
     withoutGuests.setAttribute('hidden', 'true');
   },
-  submitting(onSuccess) {
+  submit(onSuccess) {
     form.addEventListener('submit', (evt) => {
       evt.preventDefault();
 
       const formData = new FormData(evt.target);
 
-      fetch(
-        'https://22.javascript.pages.academy/keksobooking',
-        {
-          method: 'POST',
-          body: formData,
-        },
-      )
-        .then((response) => {
-          if (response.ok) {
-            this.dataReset();
-            onSuccess();
-            showSuccessMessage();
-          }
-        })
-        .catch(() => {
-          showErrorMessage();
-        });
+      sendData(formData, onSuccess, this.dataReset, showSuccessMessage, showErrorMessage)
     });
   },
   clear(mapReset) {

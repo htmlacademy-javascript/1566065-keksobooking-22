@@ -207,11 +207,6 @@
     </ul>
   </footer>
 
-  <div class="load-error hidden">
-    <p class="load-error__message error__message">Ошибка при загрузке данных с сервера!</p>
-    <button type="button" class="load-error__button error__button ">Закрыть</button>
-  </div>
-
   <!-- Карточка объявления -->
   <template id="card">
     <article class="popup">
@@ -235,6 +230,14 @@
         <img src="" class="popup__photo" width="45" height="40" alt="Фотография жилья">
       </div>
     </article>
+  </template>
+
+  <!-- Сообщение об ошибке загрузки с сервера-->
+  <template id="load-error">
+    <div class="load-error">
+      <p class="load-error__message error__message">Ошибка при загрузке данных с сервера!</p>
+      <button type="button" class="load-error__button error__button ">Закрыть</button>
+    </div>
   </template>
 
   <!-- Сообщение об успешном создании объявления -->
