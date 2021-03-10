@@ -8,6 +8,17 @@ const roomNumber = form.querySelector('#room_number');
 const capacityElements = capacity.querySelectorAll('option')
 const withoutGuests = capacity.querySelector('[value="0"]')
 const titleInput = form.querySelector('#title');
+const clearButton = form.querySelector('.ad-form__reset');
+
+const taskSuccessMessageTemplate = document.querySelector('#success').content;
+const successMessageTemplate = taskSuccessMessageTemplate.querySelector('.success');
+const successMessage = successMessageTemplate.cloneNode(true);
+const taskErrorMessageTemplate = document.querySelector('#error').content;
+const errorMessageTemplate = taskErrorMessageTemplate.querySelector('.error');
+const errorMessage = errorMessageTemplate.cloneNode(true);
+const errorMessageButton = errorMessage.querySelector('.error__button')
+
+const TIMEOUT = 2000;
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -20,11 +31,24 @@ const minHousingPrice = {
   palace: 10000,
 }
 
+const showErrorMessage = () => {
+  document.body.append(errorMessage);
+  errorMessageButton.addEventListener('click', () => {
+    errorMessage.remove();
+  })
+}
+
+const showSuccessMessage = () => {
+  document.body.append(successMessage);
+  setTimeout(() => {
+    successMessage.remove();
+  }, TIMEOUT);
+}
+
 const announcementForm = {
   validation() {
     priceInput.setAttribute('min', minHousingPrice[typeHousing.value]);
     priceInput.setAttribute('placeholder', minHousingPrice[typeHousing.value]);
-
     typeHousing.addEventListener('change', () => {
       priceInput.setAttribute('min', minHousingPrice[typeHousing.value]);
       priceInput.setAttribute('placeholder', minHousingPrice[typeHousing.value]);
@@ -39,27 +63,36 @@ const announcementForm = {
     });
 
     capacity.value = roomNumber.value;
-    withoutGuests.setAttribute('hidden', 'true')
+
+    capacityElements.forEach((element) => {
+      if (element.value > roomNumber.value) {
+        element.setAttribute('hidden', 'true');
+      } else {
+        capacity.value = roomNumber.value;
+        element.removeAttribute('hidden');
+      }
+    });
+
+    withoutGuests.setAttribute('hidden', 'true');
 
     roomNumber.addEventListener('change', () => {
       capacity.value = roomNumber.value;
 
       capacityElements.forEach((element) => {
         if (element.value > roomNumber.value) {
-          element.setAttribute('hidden', 'true')
+          element.setAttribute('hidden', 'true');
         }else {
           capacity.value = roomNumber.value;
-          element.removeAttribute('hidden')
+          element.removeAttribute('hidden');
         }
 
         if (roomNumber.value === '100') {
-          element.setAttribute('hidden', 'true')
-          withoutGuests.removeAttribute('hidden')
+          element.setAttribute('hidden', 'true');
+          withoutGuests.removeAttribute('hidden');
           capacity.value = 0;
         }else {
-          withoutGuests.setAttribute('hidden', 'true')
+          withoutGuests.setAttribute('hidden', 'true');
         }
-
       })
     });
 
@@ -88,6 +121,52 @@ const announcementForm = {
 
       priceInput.reportValidity();
     })
+  },
+  dataReset() {
+    form.reset();
+    priceInput.setAttribute('min', minHousingPrice[typeHousing.value]);
+    priceInput.setAttribute('placeholder', minHousingPrice[typeHousing.value]);
+    capacityElements.forEach((element) => {
+      if (element.value > roomNumber.value) {
+        element.setAttribute('hidden', 'true');
+      } else {
+        capacity.value = roomNumber.value;
+        element.removeAttribute('hidden');
+      }
+    });
+    withoutGuests.setAttribute('hidden', 'true');
+  },
+  submitting(onSuccess) {
+    form.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+
+      const formData = new FormData(evt.target);
+
+      fetch(
+        'https://22.javascript.pages.academy/keksobooking',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then((response) => {
+          if (response.ok) {
+            this.dataReset();
+            onSuccess();
+            showSuccessMessage();
+          }
+        })
+        .catch(() => {
+          showErrorMessage();
+        });
+    });
+  },
+  clear(mapReset) {
+    clearButton.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      this.dataReset();
+      mapReset();
+    });
   },
 }
 

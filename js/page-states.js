@@ -31,4 +31,3 @@ const pageStates = {
 }
 
 export {pageStates}
-
