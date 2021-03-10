@@ -3,6 +3,6 @@ import {announcementForm} from './form.js';
 import {getData} from './api.js';
 
 getData(leafletMap.create)
-announcementForm.validation();
+announcementForm.addValidation();
 announcementForm.clear(leafletMap.reset);
 announcementForm.submit(leafletMap.reset);

@@ -25,7 +25,7 @@ const minHousingPrice = {
 }
 
 const announcementForm = {
-  validation() {
+  addValidation() {
     priceInput.setAttribute('min', minHousingPrice[typeHousing.value]);
     priceInput.setAttribute('placeholder', minHousingPrice[typeHousing.value]);
     typeHousing.addEventListener('change', () => {
