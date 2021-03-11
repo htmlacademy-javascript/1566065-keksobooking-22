@@ -1,3 +1,10 @@
+import {showErrorMessage, showSuccessMessage} from './notifications.js'
+import {sendData} from './api.js'
+
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+const MAX_PRICE_NUMBER = 1000000;
+
 const form = document.querySelector('.ad-form');
 const checkInSelect = form.querySelector('#timein');
 const checkOutSelect = form.querySelector('#timeout');
@@ -8,10 +15,7 @@ const roomNumber = form.querySelector('#room_number');
 const capacityElements = capacity.querySelectorAll('option')
 const withoutGuests = capacity.querySelector('[value="0"]')
 const titleInput = form.querySelector('#title');
-
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
-const MAX_PRICE_NUMBER = 1000000;
+const clearButton = form.querySelector('.ad-form__reset');
 
 const minHousingPrice = {
   flat: 1000,
@@ -21,10 +25,9 @@ const minHousingPrice = {
 }
 
 const announcementForm = {
-  validation() {
+  addValidation() {
     priceInput.setAttribute('min', minHousingPrice[typeHousing.value]);
     priceInput.setAttribute('placeholder', minHousingPrice[typeHousing.value]);
-
     typeHousing.addEventListener('change', () => {
       priceInput.setAttribute('min', minHousingPrice[typeHousing.value]);
       priceInput.setAttribute('placeholder', minHousingPrice[typeHousing.value]);
@@ -39,27 +42,36 @@ const announcementForm = {
     });
 
     capacity.value = roomNumber.value;
-    withoutGuests.setAttribute('hidden', 'true')
+
+    capacityElements.forEach((element) => {
+      if (element.value > roomNumber.value) {
+        element.setAttribute('hidden', 'true');
+      } else {
+        capacity.value = roomNumber.value;
+        element.removeAttribute('hidden');
+      }
+    });
+
+    withoutGuests.setAttribute('hidden', 'true');
 
     roomNumber.addEventListener('change', () => {
       capacity.value = roomNumber.value;
 
       capacityElements.forEach((element) => {
         if (element.value > roomNumber.value) {
-          element.setAttribute('hidden', 'true')
+          element.setAttribute('hidden', 'true');
         }else {
           capacity.value = roomNumber.value;
-          element.removeAttribute('hidden')
+          element.removeAttribute('hidden');
         }
 
         if (roomNumber.value === '100') {
-          element.setAttribute('hidden', 'true')
-          withoutGuests.removeAttribute('hidden')
+          element.setAttribute('hidden', 'true');
+          withoutGuests.removeAttribute('hidden');
           capacity.value = 0;
         }else {
-          withoutGuests.setAttribute('hidden', 'true')
+          withoutGuests.setAttribute('hidden', 'true');
         }
-
       })
     });
 
@@ -88,6 +100,36 @@ const announcementForm = {
 
       priceInput.reportValidity();
     })
+  },
+  dataReset() {
+    form.reset();
+    priceInput.setAttribute('min', minHousingPrice[typeHousing.value]);
+    priceInput.setAttribute('placeholder', minHousingPrice[typeHousing.value]);
+    capacityElements.forEach((element) => {
+      if (element.value > roomNumber.value) {
+        element.setAttribute('hidden', 'true');
+      } else {
+        capacity.value = roomNumber.value;
+        element.removeAttribute('hidden');
+      }
+    });
+    withoutGuests.setAttribute('hidden', 'true');
+  },
+  submit(onSuccess) {
+    form.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+
+      const formData = new FormData(evt.target);
+
+      sendData(formData, onSuccess, this.dataReset, showSuccessMessage, showErrorMessage)
+    });
+  },
+  clear(mapReset) {
+    clearButton.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      this.dataReset();
+      mapReset();
+    });
   },
 }
 

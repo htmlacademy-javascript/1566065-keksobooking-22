@@ -1,9 +1,8 @@
-import {buildAnnouncements} from './build-announcements.js';
-import {createMap} from './create-map.js';
+import {leafletMap} from './leaflet-map.js';
 import {announcementForm} from './form.js';
+import {getData} from './api.js';
 
-const NUMBER_OF_ANNOUNCEMENTS = 10;
-const listCards = buildAnnouncements(NUMBER_OF_ANNOUNCEMENTS);
-
-createMap(listCards);
-announcementForm.validation();
+getData(leafletMap.create)
+announcementForm.addValidation();
+announcementForm.clear(leafletMap.reset);
+announcementForm.submit(leafletMap.reset);

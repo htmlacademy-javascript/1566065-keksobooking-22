@@ -41,7 +41,7 @@ const card = {
     const popupAvatar = popup.querySelector('.popup__avatar');
 
     popupTitle.textContent = onScreenItem.offer.title;
-    popupAddress.textContent = 'X: ' + onScreenItem.offer.address.x + ', Y: ' + onScreenItem.offer.address.y;
+    popupAddress.textContent = onScreenItem.offer.address;
     popupPrice.textContent = onScreenItem.offer.price + ' ₽/ночь';
 
     const variantsHousing = {
@@ -52,7 +52,13 @@ const card = {
     };
 
     popupType.textContent = variantsHousing[onScreenItem.offer.type];
-    popupCapacity.textContent = onScreenItem.offer.rooms + changeEndings(onScreenItem.offer.rooms, ROOMS_TEXT_FORM) + ' для ' + onScreenItem.offer.guests + changeEndings(onScreenItem.offer.guests, GUESTS_TEXT_FORM);
+
+    if(onScreenItem.offer.rooms === 0){
+      popupCapacity.textContent = '0 комнат для гостей'
+    }else {
+      popupCapacity.textContent = onScreenItem.offer.rooms + changeEndings(onScreenItem.offer.rooms, ROOMS_TEXT_FORM) + ' для ' + onScreenItem.offer.guests + changeEndings(onScreenItem.offer.guests, GUESTS_TEXT_FORM);
+    }
+
     popupTime.textContent = 'Заезд после ' + onScreenItem.offer.checkin + ', выезд до ' + onScreenItem.offer.checkout;
 
     if(onScreenItem.offer.features.length === 0) {
@@ -83,7 +89,7 @@ const card = {
     }
 
     popupPhotos.appendChild(photoFragment);
-    popupAvatar.src = onScreenItem.author;
+    popupAvatar.src = onScreenItem.author.avatar;
     return popup
   },
 };
